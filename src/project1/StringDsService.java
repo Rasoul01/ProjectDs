@@ -20,6 +20,8 @@ public interface StringDsService {
 
     char[] deleteSubArrayByIndex(StringDs stringDs,int start,int end);
 
+    char[] lcs(StringDs stringDs1,StringDs stringDs2);
+
 
 
 }

@@ -6,7 +6,9 @@ import java.util.Scanner;
 public class StringDsMain {
 
     public static void main(String[] args) {
+
         StringDsMain.stringDsMain();
+
     }
 
     public static void stringDsMain(){
@@ -18,20 +20,27 @@ public class StringDsMain {
         StringDs stringDs =  stringDsService.getInputChars();
         stringDsService.print(stringDs);
 
-        System.out.println("Enter the character you're searching for it's position: ");
-        char searchChar = scanner.next().charAt(0);
+        System.out.println("Enter the character you're searching for it's position(First position): ");
+        char searchChar = scanner.nextLine().charAt(0);
         int charPosition = stringDsService.findFirstPositionOfChar(stringDs,searchChar);
         System.out.println("Found at index: " + charPosition);
 
         System.out.println("Enter the character you're searching for it's position: ");
-        char searchChar2 = scanner.next().charAt(0);
+        char searchChar2 = scanner.nextLine().charAt(0);
         int[] positionArray = stringDsService.findPositionsOfChar(stringDs,searchChar2);
-        System.out.println("Found at positions: ");
-        for (int position:positionArray){
-
-            System.out.println(position);
-
+        int numOfArrayElements = 0;
+        for (int element:positionArray){
+            numOfArrayElements++;
         }
+        if (numOfArrayElements>0){
+            System.out.println("Found at positions: ");
+            for (int position:positionArray){
+
+                System.out.println(position);
+
+            }
+        }else System.out.println("Not found");
+
 
         System.out.println("Enter a substring you're searching for: ");
         models.StringDs subStringDs = stringDsService.getInputChars();
@@ -57,6 +66,7 @@ public class StringDsMain {
             for (char c:subArray){
                 System.out.print(c);
             }
+            System.out.println();
         }
 
         System.out.println("Enter start number for deletion: ");
@@ -68,6 +78,15 @@ public class StringDsMain {
         char[] newArray = stringDsService.deleteSubArrayByIndex(stringDs,startForDeletion,endForDeletion);
         for (char c:newArray) {
             System.out.print(c);
+        }
+
+        System.out.println("Enter the second string to find the lcs: ");
+        StringDs stringDs2 =  stringDsService.getInputChars();
+        char[] lcs = stringDsService.lcs(stringDs,stringDs2);
+        for (char c: lcs){
+            if (c!=0){
+                System.out.print(c);
+            }
         }
     }
 }

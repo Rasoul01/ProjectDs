@@ -19,7 +19,6 @@ public class StringDsServiceImpl implements StringDsService {
             char[] newCharArray = new char[capacity];
 
             for (int i = 0; i <size; i++){
-
                 newCharArray[i] = charArray[i];
 
             }
@@ -29,6 +28,8 @@ public class StringDsServiceImpl implements StringDsService {
         }
 
         charArray[size] = character;
+        stringDs.setCapacity(capacity);
+
 
         return charArray;
 
@@ -45,17 +46,20 @@ public class StringDsServiceImpl implements StringDsService {
 
         while (continueInput) {
 
-            char inputChar = scanner.next().charAt(0);
+            char inputChar = scanner.nextLine().charAt(0);
 
             if (inputChar != '0') {
 
                 char[] charList = add(inputChar,stringDs);
                 size++;
-                stringDs.setChars(charList);
                 stringDs.setSize(size);
+                stringDs.setChars(charList);
+
 
             }
-            else {
+            else if (inputChar == ' ') {
+
+            } else {
 
                 continueInput = false;
 
@@ -109,21 +113,7 @@ public class StringDsServiceImpl implements StringDsService {
             }
         }
 
-        int arrayCount=0;
-
-        for (int position:positions){
-
-            arrayCount++;
-
-        }
-
-        if (arrayCount>0){
-
          return positions;
-
-        }
-
-        else return null;
 
     }
 
@@ -243,6 +233,57 @@ public class StringDsServiceImpl implements StringDsService {
         return newArray;
 
     }
+
+    @Override
+    public char[] lcs(StringDs stringDs1, StringDs stringDs2) {
+
+        int p = stringDs1.getSize();
+        int q = stringDs2.getSize();
+        char[] charArray1 = stringDs1.getChars();
+        char[] charArray2 = stringDs2.getChars();
+
+        int[][] tableForLCS = new int[p + 1][q + 1];
+
+        for (int i = 0; i <= p; i++) {
+            for (int j = 0; j <= q; j++) {
+                if (i == 0 || j == 0)
+                    tableForLCS[i][j] = 0;
+                else if (charArray1[i-1] == charArray2[j-1])
+                    tableForLCS[i][j] = tableForLCS[i - 1][j - 1] + 1;
+                else
+                    tableForLCS[i][j] = Math.max(tableForLCS[i - 1][j], tableForLCS[i][j - 1]);
+            }
+        }
+
+        int index = tableForLCS[p][q];
+       // int temp = index;
+
+        char[] longestCommonSubsequence = new char[index+1];
+        longestCommonSubsequence[index] = '\0';
+
+        int i = p, j = q;
+       // char[] lcs = new char[0];
+        while (i > 0 && j > 0) {
+            if  (charArray1[i-1] == charArray2[j-1]){
+
+                longestCommonSubsequence[index - 1] = charArray1[i-1];
+                i--;
+                j--;
+                index--;
+            }
+            else if (tableForLCS[i - 1][j] > tableForLCS[i][j - 1])
+                i--;
+            else
+                j--;
+        }
+
+//        for (int k = 0; k <= temp; k++) {
+//            lcs = longestCommonSubsequence[k];
+//        }
+        return longestCommonSubsequence;
+    }
+
 }
+
 
 
