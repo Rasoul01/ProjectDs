@@ -5,8 +5,11 @@ import java.util.Stack;
 
 public class GeneralizedLinkedList<E> {
 
-//    private int size;
     private Node<E> head;
+
+    public GeneralizedLinkedList(Node<E> head) {
+        this.head = head;
+    }
 
     public void addAfter (E newNodeData, E desiredNodeData) {
         Node<E> desiredNode = find(desiredNodeData);
@@ -31,8 +34,7 @@ public class GeneralizedLinkedList<E> {
                     break;
                 }
             } else {
-                GeneralizedLinkedList<E> newGLL = new GeneralizedLinkedList<>();
-                newGLL.head = node.dlink;
+                GeneralizedLinkedList<E> newGLL = new GeneralizedLinkedList<>(node.dlink);
                 desiredNode = newGLL.find(data);
             }
         }
@@ -41,9 +43,9 @@ public class GeneralizedLinkedList<E> {
 
     public static GeneralizedLinkedList<Character> createCharGLL(char[] input) {
 
-        GeneralizedLinkedList<Character> returnVal = new GeneralizedLinkedList<>();
+        GeneralizedLinkedList<Character> returnVal = new GeneralizedLinkedList<>(null);
         Node<Character> newNode = null;
-        Node<Character> lastNode = new Node<>(Node.isDLink);
+        Node<Character> lastNode = new Node<>(Node.isDLink);    // flag is not important
 
         for (int i = 0; i < input.length; i++) {
 
@@ -73,27 +75,29 @@ public class GeneralizedLinkedList<E> {
     }
 
     private static int findRightParenthesisIndex (char[] input, int leftParenthesisIndex) {
-        int res = -1;
         Stack<Integer> leftParenthesesStack = new Stack<>();
         for (int i = 0; i < input.length; i++) {
             if (input[i] == '(') {
                 leftParenthesesStack.push(i);
             } else if (input[i] == ')') {
                 int index = leftParenthesesStack.pop();
-                if (index == leftParenthesisIndex) {
-                    res = i;
-                    break;
-                }
+                if (index == leftParenthesisIndex)
+                    return i;
             }
         }
 
-        return res;
+        return -1;
     }
 
-    public GeneralizedLinkedList<E> reverse () {
-        GeneralizedLinkedList<E> reversedList = new GeneralizedLinkedList<>();
-
-        return reversedList;
+    public void reverse () {
+        for (Node<E> node = head; node != null; node = node.nextLink) {
+            if (node.tag == Node.isDLink) {
+                Node<E> temp = node.nextLink;
+                node.nextLink = node.dlink;
+                node.dlink = temp;
+                new GeneralizedLinkedList<>(node.dlink).reverse();
+            }
+        }
     }
 
     @Override
@@ -102,13 +106,10 @@ public class GeneralizedLinkedList<E> {
 
         for (Node<E> node = head; node != null; node = node.nextLink){
             if (node.tag == Node.isData)
-                str.append(node.data).append(",");
+                str.append(node.data);
             else {
-//                str.append("(");
-                GeneralizedLinkedList<E> newGLL = new GeneralizedLinkedList<>();
-                newGLL.head = node.dlink;
+                GeneralizedLinkedList<E> newGLL = new GeneralizedLinkedList<>(node.dlink);
                 str.append(newGLL.toString());
-//                str.append("),");
             }
         }
         str.append(")");
@@ -124,13 +125,6 @@ public class GeneralizedLinkedList<E> {
 
         private Node(boolean tag) {    //Creates a Node with default values
             this.tag = tag;
-        }
-
-        private Node(Node<E> dlink, Node<E> nextLink) {
-            this.tag = isDLink;
-            this.data = null;
-            this.dlink = dlink;
-            this.nextLink = nextLink;
         }
 
         private Node(E data, Node<E> nextLink) {
