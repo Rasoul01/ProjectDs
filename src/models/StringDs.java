@@ -1,5 +1,7 @@
 package models;
 
+import java.util.Arrays;
+
 public class StringDs {
 
     private char[] chars;
@@ -39,5 +41,14 @@ public class StringDs {
 
     public void setCapacity(int capacity) {
         this.capacity = capacity;
+    }
+
+    @Override
+    public String toString() {
+        return "StringDs{" +
+                "chars=" + Arrays.toString(chars) +
+                ", size=" + size +
+                ", capacity=" + capacity +
+                '}';
     }
 }
