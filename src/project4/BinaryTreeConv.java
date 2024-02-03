@@ -6,7 +6,7 @@ import java.util.Arrays;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
-public class binaryTreeConv {
+public class BinaryTreeConv {
 
     public static void main(String[] args) {
 
@@ -88,13 +88,11 @@ public class binaryTreeConv {
     }
 
     public static int indexOf (char[] array, char key) {
-        int index = -1;
         for (int i = 0; i < array.length; i++) {
             if (array[i] == key) {
-                index = i;
-                break;
+                return i;
             }
         }
-        return index;
+        return -1;
     }
 }

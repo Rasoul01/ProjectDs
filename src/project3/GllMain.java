@@ -2,11 +2,16 @@ package project3;
 
 import models.GeneralizedLinkedList;
 
-public class gllMain {
+public class GllMain {
     public static void main(String[] args) {
-        String s = "((a,b)),c,(),d,(e,(f,(h,i),((j))),k,l),m";
+        String s = "((ab))c()d(e(f(hi)((j)))kl)m";
         GeneralizedLinkedList<Character> gll = GeneralizedLinkedList.createCharGLL(s.toCharArray());
-        System.out.println("Original GLL: " + gll);
+        System.out.println("Original GLL:\n" + gll);
+
+        System.out.println("\nReversed GLL:");
+        gll.reverse();
+        System.out.println(gll);
+        gll.reverse();
 
         System.out.println("\nAdding node(z) after node(k):");
         gll.addAfter('z', 'k');
@@ -15,9 +20,5 @@ public class gllMain {
         System.out.println("\nAdding node(u) after node(x) (doesn't exist in GLL):");
         gll.addAfter('u', 'x');
         System.out.println(gll);
-
-        System.out.println("\nReversed GLL:");
-        GeneralizedLinkedList<Character> revGLL = gll.reverse();
-        System.out.println(revGLL);
     }
 }

@@ -4,9 +4,9 @@ import models.BinaryTree;
 
 import java.util.Arrays;
 
-import static project4.binaryTreeConv.*;
+import static project4.BinaryTreeConv.*;
 
-public class test {
+public class Test {
     public static void main(String[] args) {
 
         BinaryTree<Character> tree;
