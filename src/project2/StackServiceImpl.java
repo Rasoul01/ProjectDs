@@ -1,6 +1,7 @@
 package project2;
 
 import models.Stack;
+import tools.CustomException;
 
 import java.util.LinkedList;
 
@@ -15,22 +16,27 @@ public class StackServiceImpl implements StackService{
     }
 
     @Override
-    public Object pop(Stack stack) {
+    public Object pop(Stack stack) throws CustomException {
 
-        LinkedList<Object> stackList = stack.getStackList();
-        Object element =  stackList.get(stackList.size()-1);
-        stackList.remove(stackList.size()-1);
-        stack.setStackList(stackList);
-        return element;
+    LinkedList<Object> stackList = stack.getStackList();
+    Object element =   peek(stack);
+    stackList.remove(stackList.size()-1);
+    return element;
 
     }
 
     @Override
-    public Object peek(Stack stack) {
+    public Object peek(Stack stack) throws CustomException {
 
         LinkedList<Object> stackList = stack.getStackList();
-        Object element = stackList.get(stackList.size()-1);
-        return element;
+        if (stackList.isEmpty()){
+            throw new CustomException("stack is empty");
+        }
+        else {
+            Object element = stackList.get(stackList.size()-1);
+            return element;
+        }
+
 
     }
 

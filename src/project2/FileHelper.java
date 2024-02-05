@@ -11,39 +11,6 @@ import java.util.Scanner;
 
 public class FileHelper {
 
-//  public ArrayList<StringDs> fileHelper(String fileName) throws FileNotFoundException {
-//
-//      ArrayList<StringDs> lines = new ArrayList<>();
-//      Scanner fileReader = new Scanner(new File(fileName));
-//      char currentChar = 0;
-//      int i = 0;
-//      StringDs stringDs = new StringDs();
-//      StringDsService stringDsService = new StringDsServiceImpl();
-//
-//      while (fileReader.hasNext()) {
-//
-//          while (currentChar != ' ') {
-//
-//              currentChar = fileReader.nextLine().charAt(i);
-//              char[] currentCharArray = stringDsService.add(currentChar, stringDs);
-//              stringDs.setChars(currentCharArray);
-//              i++;
-//
-//          }
-//
-//          lines.add(stringDs);
-//
-//      }
-//
-//      fileReader.close();
-//
-//      for (StringDs s:lines){
-//          System.out.println(s.toString());
-//      }
-//
-//      return lines;
-//
-//  }
     public static ArrayList<String> fileHelper(String fileName) {
 
         ArrayList<String> lines = new ArrayList<>();
@@ -72,6 +39,49 @@ public class FileHelper {
         }
 
         return lines;
+
+    }
+
+    public static void EditLineInFile(String fileName, String oldLine, String newLine) throws IOException {
+
+        File file = new File(fileName);
+
+
+        File temp = new File("Temp");
+        temp.createNewFile();
+
+        BufferedReader reader = new BufferedReader(new FileReader(fileName));
+        BufferedWriter writer = new BufferedWriter(new FileWriter(temp));
+
+
+        String currentLine;
+
+        while ((currentLine = reader.readLine()) != null) {
+            if (currentLine.equals(oldLine)) {
+                continue;
+            }
+            writer.write(currentLine);
+            writer.newLine();
+        }
+
+
+        writer.write(newLine);
+        writer.newLine();
+
+        reader.close();
+        writer.close();
+
+        reader = new BufferedReader(new FileReader(temp));
+        writer = new BufferedWriter(new FileWriter(file));
+        while ((currentLine = reader.readLine()) != null) {
+            writer.write(currentLine);
+            writer.newLine();
+        }
+
+        reader.close();
+        writer.close();
+
+        temp.delete();
 
     }
 

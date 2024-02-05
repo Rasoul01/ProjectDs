@@ -1,6 +1,7 @@
 package project2;
 
 import models.Expression;
+import tools.CustomException;
 
 public interface ExpressionService {
 
@@ -12,19 +13,22 @@ public interface ExpressionService {
 
     int getPrecedence(char operator);
 
-    String infixToPostfix(Expression expression);
+    String infixToPostfix(Expression expression) throws CustomException;
 
-    String infixToPrefix(Expression expression);
+    String infixToPrefix(Expression expression) throws CustomException;
 
-    String postfixAndPrefixToInfix(Expression expression);
+    String postfixToInfix(Expression expression) throws CustomException;
 
-    String postfixToPrefix(Expression expression);
+    String prefixToInfix(Expression expression) throws CustomException;
 
-    String prefixToPostfix(Expression expression);
+    String postfixToPrefix(Expression expression) throws CustomException;
+
+    String prefixToPostfix(Expression expression) throws CustomException;
 
     double performOperation(char operator, double operand1, double operand2);
 
-    double evaluateExpression(Expression expression);
+    double evaluateExpression(Expression expression) throws CustomException;
+
 
 
 }
