@@ -3,6 +3,7 @@ package project5;
 import models.Stack;
 import project2.StackService;
 import project2.StackServiceImpl;
+import tools.CustomException;
 
 import java.util.*;
 
@@ -10,11 +11,11 @@ public class StackPermutation {
 
     private static final StackService stackService = new StackServiceImpl();
 
-    static List<Object> permute(LinkedList<Object> input) {
+    static List<Object> permute(LinkedList<Object> input) throws CustomException {
         return permute(input, new Stack(), new LinkedList<>());
     }
 
-    static List<Object> permute(LinkedList<Object> input, Stack temp, LinkedList<Object> output) {
+    static List<Object> permute(LinkedList<Object> input, Stack temp, LinkedList<Object> output) throws CustomException {
 
         List<Object> result = new ArrayList<>();
 

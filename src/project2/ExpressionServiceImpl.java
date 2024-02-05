@@ -268,7 +268,7 @@ public class ExpressionServiceImpl implements ExpressionService{
                     double operand2 = (double) stackService.pop(stack);
                     double operand1 = (double) stackService.pop(stack);
                     double result = performOperation(token, operand1, operand2);
-                    System.out.println(result);
+                    System.out.printf( "%s %s %s = %s%n",operand1,token,operand2,result);
                     stackService.push(stack, result);
                 }
             }
@@ -278,6 +278,34 @@ public class ExpressionServiceImpl implements ExpressionService{
         }
     }
 
+    @Override
+    public boolean checkExpression(Expression expression) {
+
+        formatDetection(expression);
+        if (expression.getFormat()=="infix"){
+            try {
+                Expression exp = new Expression(infixToPostfix(expression));
+                evaluateExpression(exp);
+            } catch (CustomException e) {
+                return false;
+            }
+        }else if (expression.getFormat()=="prefix"){
+            try {
+                Expression exp = new Expression(prefixToPostfix(expression));
+                evaluateExpression(exp);
+            } catch (CustomException e) {
+               return false;
+            }
+
+        }else if (expression.getFormat()=="postfix"){
+            try {
+                evaluateExpression(expression);
+            } catch (CustomException e) {
+                return false;
+            }
+        }
+        return true;
+    }
 
 
 }

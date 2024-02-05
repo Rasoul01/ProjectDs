@@ -1,9 +1,11 @@
 package project5;
 
+import tools.CustomException;
+
 import java.util.*;
 
 public class StackMain {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws CustomException {
         int choice;
         do {
             System.out.print("Enter number of elements (Zero to Quit): ");

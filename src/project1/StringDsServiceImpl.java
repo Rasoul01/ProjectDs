@@ -57,9 +57,7 @@ public class StringDsServiceImpl implements StringDsService {
 
 
             }
-            else if (inputChar == ' ') {
-
-            } else {
+            else {
 
                 continueInput = false;
 
@@ -256,13 +254,11 @@ public class StringDsServiceImpl implements StringDsService {
         }
 
         int index = tableForLCS[p][q];
-       // int temp = index;
 
         char[] longestCommonSubsequence = new char[index+1];
         longestCommonSubsequence[index] = '\0';
 
         int i = p, j = q;
-       // char[] lcs = new char[0];
         while (i > 0 && j > 0) {
             if  (charArray1[i-1] == charArray2[j-1]){
 
@@ -276,10 +272,6 @@ public class StringDsServiceImpl implements StringDsService {
             else
                 j--;
         }
-
-//        for (int k = 0; k <= temp; k++) {
-//            lcs = longestCommonSubsequence[k];
-//        }
         return longestCommonSubsequence;
     }
 

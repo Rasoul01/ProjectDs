@@ -63,8 +63,6 @@ public class GeneralizedLinkedList<E> {
                 newNode.dlink = createCharGLL(Arrays.copyOfRange(input, i + 1,rightParenthesisIndex)).head;
                 i = rightParenthesisIndex;
 
-            } else if (input[i] == ')' ) {
-                break;
             }
 
             if (returnVal.head == null)

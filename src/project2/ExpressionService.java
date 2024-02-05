@@ -29,6 +29,8 @@ public interface ExpressionService {
 
     double evaluateExpression(Expression expression) throws CustomException;
 
+    boolean checkExpression(Expression expression);
+
 
 
 }

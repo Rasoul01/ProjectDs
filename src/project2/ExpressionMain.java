@@ -18,7 +18,7 @@ public class ExpressionMain {
          expressionMain();
     }
 
-    public static void expressionMain() throws IOException, CustomException {
+    public static void expressionMain() throws CustomException {
 
         Scanner scanner = new Scanner(System.in);
         System.out.println("Do you want to load data from file? 1:yes || 2:not");
@@ -26,32 +26,36 @@ public class ExpressionMain {
         scanner.nextLine();
         if (inputChoice==1){
            List<String> exps = FileHelper.fileHelper("test.txt");
-           for (String exp:exps){
+           for (String exp:exps) {
                Expression expression = new Expression(exp);
-               expressionService.formatDetection(expression);
-               if (Objects.equals(expression.getFormat(), "infix")){
-                 infixFormMethods(expression);
-               } else if(Objects.equals(expression.getFormat(), "postfix")) {
-                  postFixFormMethods(expression);
-               } else if (Objects.equals(expression.getFormat(), "prefix")) {
-                  prefixFormMethods(expression);
-               }
+               if (expressionService.checkExpression(expression)) {
+                   //  expressionService.formatDetection(expression);
+                   if (Objects.equals(expression.getFormat(), "infix")) {
+                       infixFormMethods(expression);
+                   } else if (Objects.equals(expression.getFormat(), "postfix")) {
+                       postFixFormMethods(expression);
+                   } else if (Objects.equals(expression.getFormat(), "prefix")) {
+                       prefixFormMethods(expression);
+                   }
+               }else System.out.println(exp+" is Not valid ");
            }
         }
         if (inputChoice==2) {
             System.out.println("Enter your desired expression: ");
             String exp = scanner.nextLine();
-                Expression expression = new Expression(exp);
+            Expression expression = new Expression(exp);
+            if (expressionService.checkExpression(expression)) {
                 expressionService.formatDetection(expression);
-                if (Objects.equals(expression.getFormat(), "infix")){
-                   infixFormMethods(expression);
+                if (Objects.equals(expression.getFormat(), "infix")) {
+                    infixFormMethods(expression);
                 } else if (Objects.equals(expression.getFormat(), "postfix")) {
-                   postFixFormMethods(expression);
+                    postFixFormMethods(expression);
                 } else if (Objects.equals(expression.getFormat(), "prefix")) {
-                  prefixFormMethods(expression);
+                    prefixFormMethods(expression);
                 }
-            }
+            }else System.out.println(exp+" is Not valid ");
         }
+    }
 
     public static void infixFormMethods(Expression expression) throws CustomException {
 
@@ -82,7 +86,6 @@ public class ExpressionMain {
         if (inputChoice==1){
             System.out.println(expressionService.evaluateExpression(expression));
         }
-
 
     }
 
