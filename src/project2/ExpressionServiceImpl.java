@@ -331,7 +331,7 @@ public class ExpressionServiceImpl implements ExpressionService {
     }
 
     @Override
-    public void evaluatePhrasalExpression(Expression expression) throws CustomException {
+    public double evaluatePhrasalExpression(Expression expression) throws CustomException {
 
         String exp = expression.getExpression();
         List<Character> charArrayList = new ArrayList<>();
@@ -358,7 +358,7 @@ public class ExpressionServiceImpl implements ExpressionService {
         }
 
         expression.setExpression(resultString.toString());
-        evaluateExpression(expression, true);
+        return evaluateExpression(expression, true);
     }
 }
 

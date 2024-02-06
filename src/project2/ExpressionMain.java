@@ -78,10 +78,13 @@ public class ExpressionMain {
             Expression toBeEvaluated = new Expression(postfixExpression, "postfix");
             System.out.println("Do you want to put number as the letter? 1:yes || 2:not");
             int inputChoice2 = scanner.nextInt();
-            if (inputChoice2==1){
-                expressionService.evaluatePhrasalExpression(toBeEvaluated);
-            } else
-                System.out.println("\nRESULT: " + expressionService.evaluateExpression(toBeEvaluated, true));
+            double result;
+            if (inputChoice2 == 1)
+                result = expressionService.evaluatePhrasalExpression(toBeEvaluated);
+            else
+                result = expressionService.evaluateExpression(toBeEvaluated, true);
+
+            System.out.println("\nRESULT: " + result);
         }
 
     }
@@ -99,11 +102,13 @@ public class ExpressionMain {
         if (inputChoice == 1) {
             System.out.println("Do you want to put number as the letter? 1:yes || 2:not");
             int inputChoice2 = scanner.nextInt();
-            if (inputChoice2==1){
-                expressionService.evaluatePhrasalExpression(expression);
-            } else
-                System.out.println("\nRESULT: " + expressionService.evaluateExpression(expression, true));
+            double result;
+            if (inputChoice2 == 1)
+                result = expressionService.evaluatePhrasalExpression(expression);
+            else
+                result = expressionService.evaluateExpression(expression, true);
 
+            System.out.println("\nRESULT: " + result);
         }
 
     }
@@ -123,11 +128,13 @@ public class ExpressionMain {
             Expression toBeEvaluated = new Expression(postfixExpression, "postfix");
             System.out.println("Do you want to put number as the letter? 1:yes || 2:not");
             int inputChoice2 = scanner.nextInt();
-            if (inputChoice2==1){
-                expressionService.evaluatePhrasalExpression(toBeEvaluated);
-            } else
-                System.out.println("\nRESULT: " + expressionService.evaluateExpression(toBeEvaluated, true));
+            double result;
+            if (inputChoice2 == 1)
+                result = expressionService.evaluatePhrasalExpression(toBeEvaluated);
+            else
+                result = expressionService.evaluateExpression(toBeEvaluated, true);
 
+            System.out.println("\nRESULT: " + result);
         }
 
     }
