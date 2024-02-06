@@ -13,24 +13,22 @@ public interface ExpressionService {
 
     int getPrecedence(char operator);
 
-    String infixToPostfix(Expression expression) throws CustomException;
+    String infixToPostfix(Expression expression, boolean printStepByStep) throws CustomException;
 
-    String infixToPrefix(Expression expression) throws CustomException;
+    String infixToPrefix(Expression expression, boolean printStepByStep) throws CustomException;
 
-    String postfixToInfix(Expression expression) throws CustomException;
+    String postfixToInfix(Expression expression, boolean printStepByStep) throws CustomException;
 
-    String prefixToInfix(Expression expression) throws CustomException;
+    String prefixToInfix(Expression expression, boolean printStepByStep) throws CustomException;
 
-    String postfixToPrefix(Expression expression) throws CustomException;
+    String postfixToPrefix(Expression expression, boolean printStepByStep) throws CustomException;
 
-    String prefixToPostfix(Expression expression) throws CustomException;
+    String prefixToPostfix(Expression expression, boolean printStepByStep) throws CustomException;
 
     double performOperation(char operator, double operand1, double operand2);
 
-    double evaluateExpression(Expression expression) throws CustomException;
+    double evaluateExpression(Expression expression, boolean printStepByStep) throws CustomException;
 
     boolean checkExpression(Expression expression);
-
-
 
 }

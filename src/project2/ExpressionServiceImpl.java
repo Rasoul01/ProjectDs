@@ -4,10 +4,7 @@ import models.Expression;
 import models.Stack;
 import tools.CustomException;
 
-import java.util.LinkedList;
-import java.util.Objects;
-
-public class ExpressionServiceImpl implements ExpressionService{
+public class ExpressionServiceImpl implements ExpressionService {
 
     StackService stackService = new StackServiceImpl();
 
@@ -16,25 +13,25 @@ public class ExpressionServiceImpl implements ExpressionService{
 
         String exp = expression.getExpression();
 
-      //  If it is guaranteed that input expression is in true form
-        if ( exp != null && !exp.isEmpty() && Character.isLetterOrDigit(exp.charAt(0)) || exp.charAt(0) == '(' ){
+        //  If it is guaranteed that input expression is in true form
+        if (exp != null && !exp.isEmpty() && Character.isLetterOrDigit(exp.charAt(0)) || exp.charAt(0) == '(') {
 
-            if (Character.isLetterOrDigit(exp.charAt(exp.length() - 1)) || exp.charAt(exp.length()-1) == ')'){
+            if (Character.isLetterOrDigit(exp.charAt(exp.length() - 1)) || exp.charAt(exp.length() - 1) == ')') {
 
                 expression.setFormat("infix");
 
-            }else {
+            } else {
 
                 expression.setFormat("postfix");
 
             }
 
-        }else {
+        } else {
 
             expression.setFormat("prefix");
 
         }
-        System.out.println(expression.getExpression()+" is in "+expression.getFormat()+" format");
+        System.out.println(expression.getExpression() + " is in " + expression.getFormat() + " format");
         return expression;
 
     }
@@ -42,7 +39,7 @@ public class ExpressionServiceImpl implements ExpressionService{
     @Override
     public boolean isOperator(char c) {
 
-        return (c == '+' || c == '-' || c == '*' || c == '/' || c=='^');
+        return (c == '+' || c == '-' || c == '*' || c == '/' || c == '^');
 
     }
 
@@ -63,7 +60,7 @@ public class ExpressionServiceImpl implements ExpressionService{
             case '*':
             case '/':
                 return 2;
-            case  '^':
+            case '^':
                 return 3;
         }
 
@@ -72,53 +69,59 @@ public class ExpressionServiceImpl implements ExpressionService{
     }
 
     @Override
-    public String infixToPostfix(Expression expression) throws CustomException {
+    public String infixToPostfix(Expression expression, boolean printStepByStep) throws CustomException {
 
         Stack stack = new Stack();
         StringBuilder result = new StringBuilder();
         String infix = expression.getExpression();
-    try {
-
-        for (int i = 0; i < infix.length(); i++) {
-            char currentChar = infix.charAt(i);
-            if (isOperand(currentChar)) {
-                result.append(currentChar);
-                System.out.println(result);
-            } else if (currentChar == '(') {
-                stackService.push(stack, currentChar);
-            } else if (currentChar == ')') {
-                while (!stackService.isEmpty(stack) && (char) stackService.peek(stack) != '(') {
-                    result.append(stackService.pop(stack));
-                    System.out.println(result);
+        try {
+            if (printStepByStep)
+                System.out.println("* Converting to Postfix:");
+            for (int i = 0; i < infix.length(); i++) {
+                char currentChar = infix.charAt(i);
+                if (isOperand(currentChar)) {
+                    result.append(currentChar);
+                    if (printStepByStep)
+                        System.out.println(result);
+                } else if (currentChar == '(') {
+                    stackService.push(stack, currentChar);
+                } else if (currentChar == ')') {
+                    while (!stackService.isEmpty(stack) && (char) stackService.peek(stack) != '(') {
+                        result.append(stackService.pop(stack));
+                        if (printStepByStep)
+                            System.out.println(result);
+                    }
+                    if (!stackService.isEmpty(stack) && (char) stackService.peek(stack) == '(') {
+                        stackService.pop(stack);
+                    }
+                } else if (isOperator(currentChar)) {
+                    while (!stackService.isEmpty(stack) && getPrecedence((char) stackService.peek(stack)) >= getPrecedence(currentChar)) {
+                        result.append(stackService.pop(stack));
+                        if (printStepByStep)
+                            System.out.println(result);
+                    }
+                    stackService.push(stack, currentChar);
                 }
-                if (!stackService.isEmpty(stack) && (char) stackService.peek(stack) == '(') {
-                    stackService.pop(stack);
-                }
-            } else if (isOperator(currentChar)) {
-                while (!stackService.isEmpty(stack) && getPrecedence((char) stackService.peek(stack)) >= getPrecedence(currentChar)) {
-                    result.append(stackService.pop(stack));
-                    System.out.println(result);
-                }
-                stackService.push(stack, currentChar);
             }
-        }
-        while (!stackService.isEmpty(stack)) {
-            result.append(stackService.pop(stack));
-            System.out.println(result);
-        }
+            while (!stackService.isEmpty(stack)) {
+                result.append(stackService.pop(stack));
+                if (printStepByStep)
+                    System.out.println(result);
+            }
 
-        return result.toString();
-    }catch (Exception e){
-        throw new CustomException("Not valid");
-    }
+            return result.toString();
+        } catch (Exception e) {
+            throw new CustomException("Not valid");
+        }
 
     }
 
     @Override
-    public String infixToPrefix(Expression expression) throws CustomException {
+    public String infixToPrefix(Expression expression, boolean printStepByStep) throws CustomException {
 
         try {
-
+            if (printStepByStep)
+                System.out.println("* Converting to Prefix:");
             Stack stack = new Stack();
             StringBuilder result = new StringBuilder();
             String infix = expression.getExpression();
@@ -128,13 +131,15 @@ public class ExpressionServiceImpl implements ExpressionService{
                 char currentChar = infix.charAt(i);
                 if (isOperand(currentChar)) {
                     result.append(currentChar);
-                    System.out.println(result);
+                    if (printStepByStep)
+                        System.out.println(result);
                 } else if (currentChar == ')') {
                     stackService.push(stack, currentChar);
                 } else if (currentChar == '(') {
                     while (!stackService.isEmpty(stack) && (char) stackService.peek(stack) != ')') {
                         result.append(stackService.pop(stack));
-                        System.out.println(result);
+                        if (printStepByStep)
+                            System.out.println(result);
                     }
                     if (!stackService.isEmpty(stack) && (char) stackService.peek(stack) == ')') {
                         stackService.pop(stack);
@@ -142,25 +147,29 @@ public class ExpressionServiceImpl implements ExpressionService{
                 } else if (isOperator(currentChar)) {
                     while (!stackService.isEmpty(stack) && getPrecedence((char) stackService.peek(stack)) >= getPrecedence(currentChar)) {
                         result.append(stackService.pop(stack));
-                        System.out.println(result);
+                        if (printStepByStep)
+                            System.out.println(result);
                     }
                     stackService.push(stack, currentChar);
                 }
             }
             while (!stackService.isEmpty(stack)) {
                 result.append(stackService.pop(stack));
-                System.out.println(result);
+                if (printStepByStep)
+                    System.out.println(result);
             }
             return result.reverse().toString();
-        }catch (Exception e){
+        } catch (Exception e) {
             throw new CustomException("Not valid");
         }
     }
 
     @Override
-    public String postfixToInfix(Expression expression) throws CustomException {
+    public String postfixToInfix(Expression expression, boolean printStepByStep) throws CustomException {
 
         try {
+            if (printStepByStep)
+                System.out.println("* Converting to Infix:");
             Stack stack = new Stack();
             String exp = expression.getExpression();
 
@@ -174,7 +183,8 @@ public class ExpressionServiceImpl implements ExpressionService{
                     String operand2 = (String) stackService.pop(stack);
                     String operand1 = (String) stackService.pop(stack);
                     String infixExpression = "(" + operand1 + currentChar + operand2 + ")";
-                    System.out.println(infixExpression);
+                    if (printStepByStep)
+                        System.out.println(infixExpression);
                     stackService.push(stack, infixExpression);
                 }
             }
@@ -186,10 +196,11 @@ public class ExpressionServiceImpl implements ExpressionService{
     }
 
     @Override
-    public String prefixToInfix(Expression expression) throws CustomException {
+    public String prefixToInfix(Expression expression, boolean printStepByStep) throws CustomException {
 
         try {
-
+            if (printStepByStep)
+                System.out.println("* Converting to Infix:");
             Stack stack = new Stack();
             String exp = expression.getExpression();
 
@@ -198,42 +209,43 @@ public class ExpressionServiceImpl implements ExpressionService{
 
                 if (Character.isLetterOrDigit(currentChar)) {
 
-                    stackService.push(stack,String.valueOf(currentChar));
+                    stackService.push(stack, String.valueOf(currentChar));
 
                 } else if (isOperator(currentChar)) {
 
-                    String operand1 =(String) stackService.pop(stack);
-                    String operand2 =(String) stackService.pop(stack);
+                    String operand1 = (String) stackService.pop(stack);
+                    String operand2 = (String) stackService.pop(stack);
                     String newExpression = "(" + operand1 + currentChar + operand2 + ")";
-                    System.out.println(newExpression);
-                    stackService.push(stack,newExpression);
+                    if (printStepByStep)
+                        System.out.println(newExpression);
+                    stackService.push(stack, newExpression);
                 }
             }
 
             return (String) stackService.pop(stack);
 
 
-        }catch (Exception e){
+        } catch (Exception e) {
             throw new CustomException("Not valid");
         }
     }
 
 
     @Override
-    public String postfixToPrefix(Expression expression) throws CustomException {
+    public String postfixToPrefix(Expression expression, boolean printStepByStep) throws CustomException {
 
-        String infix = postfixToInfix(expression);
+        String infix = postfixToInfix(expression, false);
         Expression infixExpression = new Expression(infix);
-        return infixToPrefix(infixExpression);
+        return infixToPrefix(infixExpression, printStepByStep);
 
     }
 
     @Override
-    public String prefixToPostfix(Expression expression) throws CustomException {
+    public String prefixToPostfix(Expression expression, boolean printStepByStep) throws CustomException {
 
-        String infix = prefixToInfix(expression);
+        String infix = prefixToInfix(expression, false);
         Expression infixExpression = new Expression(infix);
-        return infixToPostfix(infixExpression);
+        return infixToPostfix(infixExpression, printStepByStep);
     }
 
     @Override
@@ -256,7 +268,7 @@ public class ExpressionServiceImpl implements ExpressionService{
     }
 
     @Override
-    public double evaluateExpression(Expression expression) throws CustomException {
+    public double evaluateExpression(Expression expression, boolean printStepByStep) throws CustomException {
 
         try {
             Stack stack = new Stack();
@@ -268,7 +280,8 @@ public class ExpressionServiceImpl implements ExpressionService{
                     double operand2 = (double) stackService.pop(stack);
                     double operand1 = (double) stackService.pop(stack);
                     double result = performOperation(token, operand1, operand2);
-                    System.out.printf( "%s %s %s = %s%n",operand1,token,operand2,result);
+                    if (printStepByStep)
+                        System.out.printf("%s %s %s = %s%n", operand1, token, operand2, result);
                     stackService.push(stack, result);
                 }
             }
@@ -282,24 +295,32 @@ public class ExpressionServiceImpl implements ExpressionService{
     public boolean checkExpression(Expression expression) {
 
         formatDetection(expression);
-        if (expression.getFormat()=="infix"){
+        char[] tempArray = expression.getExpression().toCharArray();
+        for (int i = 0; i < tempArray.length; i++) {
+            if (Character.isLetter(tempArray[i])) {
+                tempArray[i] = '1';
+            }
+        }
+        Expression tempExp = new Expression(new String(tempArray), expression.getFormat());
+
+        if (tempExp.getFormat() == "infix") {
             try {
-                Expression exp = new Expression(infixToPostfix(expression));
-                evaluateExpression(exp);
+                Expression exp = new Expression(infixToPostfix(tempExp, false));
+                evaluateExpression(exp, false);
             } catch (CustomException e) {
                 return false;
             }
-        }else if (expression.getFormat()=="prefix"){
+        } else if (tempExp.getFormat() == "prefix") {
             try {
-                Expression exp = new Expression(prefixToPostfix(expression));
-                evaluateExpression(exp);
+                Expression exp = new Expression(prefixToPostfix(tempExp, false));
+                evaluateExpression(exp, false);
             } catch (CustomException e) {
-               return false;
+                return false;
             }
 
-        }else if (expression.getFormat()=="postfix"){
+        } else if (tempExp.getFormat() == "postfix") {
             try {
-                evaluateExpression(expression);
+                evaluateExpression(tempExp, false);
             } catch (CustomException e) {
                 return false;
             }
