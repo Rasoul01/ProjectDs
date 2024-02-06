@@ -4,6 +4,10 @@ import models.Expression;
 import models.Stack;
 import tools.CustomException;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+
 public class ExpressionServiceImpl implements ExpressionService {
 
     StackService stackService = new StackServiceImpl();
@@ -328,6 +332,33 @@ public class ExpressionServiceImpl implements ExpressionService {
         return true;
     }
 
+    @Override
+    public void evaluatePhrasalExpression(Expression expression) throws CustomException {
 
+        String exp = expression.getExpression();
+        List<Character> charArrayList = new ArrayList<>();
+        Scanner scanner = new Scanner(System.in);
+        StringBuilder resultString = new StringBuilder();
+
+        for (char c : exp.toCharArray()) {
+            charArrayList.add(c);
+        }
+        for (char c : charArrayList) {
+            if (Character.isLetter(c)) {
+                for (int i = 0; i < exp.length(); i++) {
+                    if (exp.charAt(i) == c) {
+                        System.out.println("Enter your desired number for char " + c);
+                        char num = scanner.nextLine().charAt(0);
+                        charArrayList.set(i, num);
+                    }
+                }
+            }
+        }
+        for (char c : charArrayList) {
+            resultString.append(c);
+        }
+        expression.setExpression(resultString.toString());
+        evaluateExpression(expression,true);
+    }
 }
 

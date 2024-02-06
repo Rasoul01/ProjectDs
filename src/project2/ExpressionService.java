@@ -31,4 +31,6 @@ public interface ExpressionService {
 
     boolean checkExpression(Expression expression);
 
+    void evaluatePhrasalExpression(Expression expression) throws CustomException;
+
 }

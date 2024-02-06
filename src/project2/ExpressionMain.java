@@ -76,6 +76,11 @@ public class ExpressionMain {
         int inputChoice = scanner.nextInt();
         if (inputChoice == 1) {
             Expression toBeEvaluated = new Expression(postfixExpression, "postfix");
+            System.out.println("Do you want to put number as the letter? 1:yes || 2:not");
+            int inputChoice2 = scanner.nextInt();
+            if (inputChoice2==1){
+                expressionService.evaluatePhrasalExpression(toBeEvaluated);
+            }
             System.out.println("\nRESULT: " + expressionService.evaluateExpression(toBeEvaluated, true));
         }
 
@@ -92,7 +97,13 @@ public class ExpressionMain {
         System.out.println("Do you want to evaluate the expression? 1:yes || 2 :not");
         int inputChoice = scanner.nextInt();
         if (inputChoice == 1) {
+            System.out.println("Do you want to put number as the letter? 1:yes || 2:not");
+            int inputChoice2 = scanner.nextInt();
+            if (inputChoice2==1){
+                expressionService.evaluatePhrasalExpression(expression);
+            }
             System.out.println("\nRESULT: " + expressionService.evaluateExpression(expression, true));
+
         }
 
     }
@@ -110,7 +121,13 @@ public class ExpressionMain {
         int inputChoice = scanner.nextInt();
         if (inputChoice == 1) {
             Expression toBeEvaluated = new Expression(postfixExpression, "postfix");
+            System.out.println("Do you want to put number as the letter? 1:yes || 2:not");
+            int inputChoice2 = scanner.nextInt();
+            if (inputChoice2==1){
+                expressionService.evaluatePhrasalExpression(toBeEvaluated);
+            }
             System.out.println("\nRESULT: " + expressionService.evaluateExpression(toBeEvaluated, true));
+
         }
 
     }
