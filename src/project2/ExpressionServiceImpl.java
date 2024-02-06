@@ -4,9 +4,7 @@ import models.Expression;
 import models.Stack;
 import tools.CustomException;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 public class ExpressionServiceImpl implements ExpressionService {
 
@@ -339,26 +337,28 @@ public class ExpressionServiceImpl implements ExpressionService {
         List<Character> charArrayList = new ArrayList<>();
         Scanner scanner = new Scanner(System.in);
         StringBuilder resultString = new StringBuilder();
+        HashMap<Character, Character> map = new HashMap<>();
 
         for (char c : exp.toCharArray()) {
             charArrayList.add(c);
         }
         for (char c : charArrayList) {
-            if (Character.isLetter(c)) {
-                for (int i = 0; i < exp.length(); i++) {
-                    if (exp.charAt(i) == c) {
-                        System.out.println("Enter your desired number for char " + c);
-                        char num = scanner.nextLine().charAt(0);
-                        charArrayList.set(i, num);
-                    }
-                }
+            if (Character.isLetter(c) & !map.containsKey(c)) {
+                System.out.println("Enter your desired number for char " + c);
+                char num = scanner.nextLine().charAt(0);
+                map.put(c, num);
             }
         }
+
         for (char c : charArrayList) {
-            resultString.append(c);
+            if (Character.isLetter(c)) {
+                resultString.append(map.get(c));
+            } else
+                resultString.append(c);
         }
+
         expression.setExpression(resultString.toString());
-        evaluateExpression(expression,true);
+        evaluateExpression(expression, true);
     }
 }
 

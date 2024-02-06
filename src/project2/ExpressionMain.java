@@ -80,8 +80,8 @@ public class ExpressionMain {
             int inputChoice2 = scanner.nextInt();
             if (inputChoice2==1){
                 expressionService.evaluatePhrasalExpression(toBeEvaluated);
-            }
-            System.out.println("\nRESULT: " + expressionService.evaluateExpression(toBeEvaluated, true));
+            } else
+                System.out.println("\nRESULT: " + expressionService.evaluateExpression(toBeEvaluated, true));
         }
 
     }
@@ -101,8 +101,8 @@ public class ExpressionMain {
             int inputChoice2 = scanner.nextInt();
             if (inputChoice2==1){
                 expressionService.evaluatePhrasalExpression(expression);
-            }
-            System.out.println("\nRESULT: " + expressionService.evaluateExpression(expression, true));
+            } else
+                System.out.println("\nRESULT: " + expressionService.evaluateExpression(expression, true));
 
         }
 
@@ -125,8 +125,8 @@ public class ExpressionMain {
             int inputChoice2 = scanner.nextInt();
             if (inputChoice2==1){
                 expressionService.evaluatePhrasalExpression(toBeEvaluated);
-            }
-            System.out.println("\nRESULT: " + expressionService.evaluateExpression(toBeEvaluated, true));
+            } else
+                System.out.println("\nRESULT: " + expressionService.evaluateExpression(toBeEvaluated, true));
 
         }
 
